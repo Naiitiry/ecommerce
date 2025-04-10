@@ -15,8 +15,15 @@
                 </br>
                     <form method="POST" action="{% url 'update_info' %}">
                         {% csrf_token %}
+                        
                         {{ form.as_p }}
-                        <br><br>
+
+                        <br/><br/>
+                        <strong>Shipping Information</strong>
+                        <br>
+                        {{ shipping_form.as_p }}
+
+                        <br/><br/><br/><br/>
                         <button type="submit" class="btn btn-secondary">
                             Update Info
                         </button>

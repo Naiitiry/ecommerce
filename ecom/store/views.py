@@ -5,28 +5,53 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
+
+from payment.forms import ShippingForm
+from payment.models import ShippingAddress
+
 from django import forms
+from django.db.models import Q
+import json
+from cart.cart import Cart
 
 
 def search(request):
     # Determinar si llenaron el formulario
     if request.method == 'POST':
         searched = request.POST['searched']
-        return render(request,'search.html',{'searched':searched})
+        # Buscar, por querys, los productos
+        searched = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched))
+        # Test for null
+        if not searched:
+            messages.error(request,'That product not exist.')
+            return render(request,'search.html',{})
+        else:
+            return render(request,'search.html',{'searched':searched})
     else:
         return render(request,'search.html',{})
 
 
 def update_info(request):
     if request.user.is_authenticated:
+        # Obtener el usuario actual
         current_user = Profile.objects.get(user__id=request.user.id)
+        # Obtener el envío del usuario actual
+        shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
+
+        # Obtener formulario original del usuario
         form = UserInfoForm(request.POST or None, instance=current_user)
-        if form.is_valid():
+        # Obtener formulario de envío del usuario
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+
+        if form.is_valid() or shipping_form.is_valid():
+            # Guardar formulario de usuario
             form.save()
+            # Guardar formulario de envío
+            shipping_form.save()
 
             messages.success(request,'Your info has been Updated!')
             return redirect('home')
-        return render(request,'update_info.html',{'form':form})
+        return render(request,'update_info.html',{'form':form,'shipping_form':shipping_form})
     else:
         messages.error(request,'You must be logged in')
         return redirect('home')
@@ -100,6 +125,22 @@ def login_user(request):
         user = authenticate(request,username=username,password=password)
         if user is not None:
             login(request,user)
+
+            # Que hacer con las cosas del carrito
+            current_user = Profile.objects.get(user__id=request.user.id)
+            # Traer lo guardado del carrito en la BD
+            saved_cart = current_user.old_cart
+            # Convertir DB string a dic
+            if saved_cart:
+                # convertir a dic con JSON (una función de este último)
+                converted_cart = json.loads(saved_cart)
+                # Agregarlo diccionario a la sesión
+                # Traer el carrito (traer el cart.py de la app cart)
+                cart = Cart(request)
+                # Hacer un loop del carrito y de los items en el
+                for key, value in converted_cart.items():
+                    cart.db_add(product=key, quantity=value)
+
             messages.success(request,"You have been login!")
             return redirect('home')
         else:
