@@ -20,7 +20,7 @@ class Profile(models.Model):
         return self.user.username
     
 
-# Crear usuario por defecto
+# Crear usuario por defecto al crearse una cuenta
 def create_profile(sender, instance, created, **kwargs):
     if created:
         user_profile = Profile(user=instance)
