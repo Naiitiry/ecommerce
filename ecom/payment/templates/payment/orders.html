@@ -7,18 +7,18 @@
             <div class="col-8">
                 <div class="card">
                     <div class="card-header">
-                      Order {{order.id}} - ${{order.mount_paid}}
+                      Orden {{order.id}} - ${{order.mount_paid}}
                     </div>
                     <div class="card-body">
                         Email: {{order.email}} <br>
                         {% if order.date_shipped %}
-                        Date Shipped: {{order.date_shipped}}
+                        Fecha de envio: {{order.date_shipped}}
                         {% else %}
-                        Date Ordered: {{order.date_ordered}}
+                        Fecha de la orden: {{order.date_ordered}}
                         {% endif %}
                         <br>
-                        Full name: {{order.full_name}} <br>
-                        Shipping Address: {{order.shipping_address}}
+                        Nombre completo: {{order.full_name}} <br>
+                        Domicilio de envío: {{order.shipping_address}}
                         <br><br>
                         {% for item in items %}
                             {{ item.product }} - {{ item.quantity }} - ${{ item.price }} 
@@ -30,7 +30,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="shipped_status" value="true">
                                 <button type="submit" class="btn btn-success">
-                                    Mark as shipped
+                                    Marcar como enviado.
                                 </button>
                             </form>
                         {% else %}
@@ -38,7 +38,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="shipped_status" value="false">
                                 <button type="submit" class="btn btn-danger">
-                                    Mark as not shipped
+                                    Marcar como no enviado.
                                 </button>
                             </form>
                         {% endif %}
