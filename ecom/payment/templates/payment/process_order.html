@@ -16,7 +16,7 @@
         <div class="col-md-6 offset-md-3">
             <div class="card">
                 <div class="card-header">
-                  Order Summary
+                  Resumen de la orden
                 </div>
                 <div class="card-body">
                     {% for product in cart_products %}
@@ -28,7 +28,7 @@
                         {% endif %}
                         <br>
                         <small>
-                            Quantity:
+                            Cantidad:
                             {% for key, value in quantities.items %}
                                 {% if key == product.id|slugify %}
                                     {{ value }}
@@ -41,33 +41,33 @@
                         Total: ${{ totals }}
                     </strong>
                     <br><br>
-                    <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Actualizar elementos</a>
                 </div>
             </div>
             <br>
             <br>
             <div class="card">
                 <div class="card-header">
-                    Shippig Info
+                    Información del envío
                 </div>
                 <div class="card-body">
-                    Name: {{ shipping_info.shipping_full_name }}<br>
+                    Nombre: {{ shipping_info.shipping_full_name }}<br>
                     Email: {{ shipping_info.shipping_email }}<br>
-                    Address 1: {{ shipping_info.shipping_address1 }}<br>
-                    Address 2: {{ shipping_info.shipping_address2 }}<br>
-                    City: {{ shipping_info.shipping_city }}<br>
-                    State: {{ shipping_info.shipping_state }}<br>
-                    Zipcode: {{ shipping_info.shipping_zipcode }}<br>
-                    Country: {{ shipping_info.shipping_country }}<br>
+                    Domicilio 1: {{ shipping_info.shipping_address1 }}<br>
+                    Domicilio 2: {{ shipping_info.shipping_address2 }}<br>
+                    Ciudad: {{ shipping_info.shipping_city }}<br>
+                    Estado: {{ shipping_info.shipping_state }}<br>
+                    Cód. Postal: {{ shipping_info.shipping_zipcode }}<br>
+                    País: {{ shipping_info.shipping_country }}<br>
                     <br>
-                    <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Update Shipping</a>
+                    <a href="{% url 'checkout' %}" class="btn btn-outline-secondary">Actualizar envio</a>
                 </div>
             </div>
             <br>
             <br>
             <div class="card">
                 <div class="card-header">
-                    Billing Info
+                    Facturación
                 </div>
                 <div class="card-body">
                     <form action="{% url 'process_order' %}" method="POST">
@@ -80,7 +80,7 @@
             <br>
             <br>
             <button type="submit" href="" class="btn btn-secondary">
-                Pay now
+                Pague ahora
             </button>
             </form>
         </div> 

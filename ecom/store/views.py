@@ -23,7 +23,7 @@ def search(request):
         searched = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched))
         # Test for null
         if not searched:
-            messages.error(request,'That product not exist.')
+            messages.error(request,'Ese producto no existe!')
             return render(request,'search.html',{})
         else:
             return render(request,'search.html',{'searched':searched})
@@ -49,11 +49,11 @@ def update_info(request):
             # Guardar formulario de envío
             shipping_form.save()
 
-            messages.success(request,'Your info has been Updated!')
+            messages.success(request,'Tu información ha sido actualizada.')
             return redirect('home')
         return render(request,'update_info.html',{'form':form,'shipping_form':shipping_form})
     else:
-        messages.error(request,'You must be logged in')
+        messages.error(request,'Tienes que estar logeado!')
         return redirect('home')
 
 
@@ -64,7 +64,7 @@ def update_password(request):
             form = ChangePasswordForm(current_user,request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request,'Your Password has been updated correctly! Please re loggin.')
+                messages.success(request,'Tu contraseña fue actualizada correctamente, relogea!')
                 return redirect('login')
             else:
                 for error in list(form.errors.values()):
@@ -84,11 +84,11 @@ def update_user(request,):
         if user_form.is_valid():
             user_form.save()
             login(request,current_user)
-            messages.success(request,'User has been updated!!')
+            messages.success(request,'Usuario actualizado!.')
             return redirect('home')
         return render(request,'update_user.html',{'user_form':user_form})
     else:
-        messages.error(request,'You must be logged in')
+        messages.error(request,'Tienes que estar logeado.')
         return redirect('home')
 
 
@@ -104,7 +104,7 @@ def category(request,foo):
         products = Product.objects.filter(category=category)
         return render(request,'category.html',{'products':products,'category':category})
     except:
-        messages.error(request,"That category doesn't exist.")
+        messages.error(request,"Esa categoría no existe.")
         return redirect('home')
 
 def product(request,pk):
@@ -141,17 +141,17 @@ def login_user(request):
                 for key, value in converted_cart.items():
                     cart.db_add(product=key, quantity=value)
 
-            messages.success(request,"You have been login!")
+            messages.success(request,"Tienes que estar logeado.")
             return redirect('home')
         else:
-            messages.error(request,"There was a error, please try login again")
+            messages.error(request,"Hubo un error, intenta logearte nuevamente.")
             return redirect('login')
     else:
         return render(request,'login.html',{})
 
 def logout_user(request):
     logout(request)
-    messages.success(request,("You have been logout!"))
+    messages.success(request,("Te deslogeaste!."))
     return redirect('home')
 
 def register_user(request):
@@ -165,10 +165,10 @@ def register_user(request):
             # login user
             user = authenticate(username=username,password=password)
             login(request,user)
-            messages.success(request,"You have registered succesfully! - Please fill out your User Info below")
+            messages.success(request,"Te registraste correctamente - Por favor, completá la información de usuario abajo.")
             return redirect('update_info')
         else:
-            messages.error(request,"UPS! there was a problem in register!")
+            messages.error(request,"UPS! hubo un problema en el registro!.")
             return redirect('register')
     else:
         return render(request,'register.html',{'form':form})

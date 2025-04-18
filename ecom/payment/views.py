@@ -117,7 +117,7 @@ def process_order(request):
             # Eliminar carrito de compras
             currente_user.update(old_cart="")
 
-            messages.success(request,'Listo perro')
+            messages.success(request,'Pago realizado!')
             return redirect('home')
         else:
             # Creamos la orden, con toda la información actualizada
@@ -153,7 +153,7 @@ def process_order(request):
             messages.error(request,'No logeado')
             return redirect('home')
     else:
-        messages.error(request,'Access denied!')
+        messages.error(request,'Acceso denegado!')
         return redirect('home')
 
 # # # # # # # # # # DASHBOARD SHIP # # # # # # # # # # 
@@ -169,12 +169,12 @@ def not_shipped_dash(request):
             # Actualizar el estado
             now = datetime.datetime.now()
             order.update(shipped=True, date_shipped=now)
-            messages.success(request,'Shipping Statu Updated')
+            messages.success(request,'Estado del envío actualizado.')
             return redirect('home')
 
         return render(request,"payment/not_shipped_dash.html",{"orders":orders})
     else:
-        messages.success(request,"Access denied!")
+        messages.success(request,"Acceso denegado!")
         return redirect('home')
 
 def shipped_dash(request):
@@ -188,13 +188,13 @@ def shipped_dash(request):
             # Actualizar el estado
             now = datetime.datetime.now()
             order.update(shipped=False, date_shipped=now)
-            messages.success(request,'Shipping Statu Updated')
+            messages.success(request,'Estado del envío actualizado.')
             return redirect('home')
 
 
         return render(request,"payment/shipped_dash.html",{"orders":orders})
     else:
-        messages.success(request,"Access denied!")
+        messages.success(request,"Acceso denegado!")
         return redirect('home')
     
 def orders(request,pk):
@@ -218,10 +218,10 @@ def orders(request,pk):
                 order = Order.objects.filter(id=pk)
                 # Actualizar el estado
                 order.update(shipped=False)
-            messages.success(request,'Shipping Statu Updated')
+            messages.success(request,'Estado del envío actualizado.')
             return redirect('home')
 
         return render(request,'payment/orders.html',{"order":order,"items":items})
     else:
-        messages.success(request,"Access denied!")
+        messages.success(request,"Acceso denegado!")
         return redirect('home')

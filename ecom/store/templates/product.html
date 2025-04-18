@@ -14,7 +14,7 @@
                     {% if product.is_sale %}
                         <div class="badge bg-danger text-white position-absolute"
                         style="top:0.5rem; right: 0.5rem;">
-                            Sale
+                            Oferta!
                         </div>
                         <!-- Product details-->
                         <div class="card-body p-4">
@@ -31,7 +31,7 @@
                         {{ product.price }}
                     {% endif %}
                     <div class="row justify-content-center">
-                        <div class="col-md-2">Quantity</div>
+                        <div class="col-md-2">Cantidad</div>
                         <div class="col-md-2">
                             <select class="form-select form-select-sm" id="qty-cart">
                                 <option value="1">1</option>
@@ -44,10 +44,10 @@
                     </div>
                     <br/><br/>
                     <a href="{% url 'home' %}" class="btn btn-secondary">
-                        Home
+                        Inicio
                     </a>
                     <button type="button" value="{{ product.id }}" class="btn btn-secondary" id="add-cart">
-                        Add To Cart
+                        Agregar
                     </button>
                 </center>
             </div>
