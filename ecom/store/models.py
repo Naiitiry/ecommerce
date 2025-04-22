@@ -9,10 +9,6 @@ import cloudinary
 import cloudinary_storage
 from cloudinary.utils import cloudinary_url
 
-# Subir imagen a Cloudinary
-
-
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
