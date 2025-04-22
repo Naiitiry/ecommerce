@@ -1,7 +1,16 @@
+import cloudinary.uploader
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
+import cloudinary
+import cloudinary_storage
+from cloudinary.utils import cloudinary_url
+
+# Subir imagen a Cloudinary
+
+
 
 
 class Profile(models.Model):
@@ -56,7 +65,7 @@ class Product(models.Model):
     price = models.DecimalField(default=0, decimal_places=2, max_digits=6)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     description = models.CharField(max_length=250, default='', blank=True, null=True)
-    image = models.ImageField(upload_to='product/')
+    image = models.URLField(blank=True,null=True)
 
     # Booleanos de descuentos
     is_sale = models.BooleanField(default=False)
@@ -64,6 +73,16 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+@receiver(pre_save,sender=Product)
+# Guardar imagen en Cloudinary
+def upload_to_cloudinary(sender, instance, **kwargs):
+    # Solo si se está asignando un archivo local (temporalmente)
+    if hasattr(instance,'_image_file'):
+        result = cloudinary.uploader.upload(instance._image_file)
+        instance.image = result['secure_url']
+        del instance._image_file
 
 
 
