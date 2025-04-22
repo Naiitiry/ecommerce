@@ -1,3 +1,4 @@
+import os
 import cloudinary.uploader
 from django.db import models
 import datetime
@@ -74,6 +75,12 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+cloudinary.config( 
+    cloud_name = os.environ.get("CLOUDINARY_NAME"), 
+    api_key = os.environ.get("CLOUDINARY_API_KEY"), 
+    api_secret = os.environ.get("CLOUDINARY_API_SECRET"), 
+    secure=True 
+)
 
 @receiver(pre_save,sender=Product)
 # Guardar imagen en Cloudinary
