@@ -35,9 +35,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categorias</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'category_summary' %}">Todos productos</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category_summary' %}">Todoslas categorias</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        {% for cat in category %}
+                        {% for cat in categories %}
                             <li><a class="dropdown-item" href="{% url 'category' cat.name|slugify %}">{{ cat.name }}</a></li>
                         {% endfor %}
                     </ul>
