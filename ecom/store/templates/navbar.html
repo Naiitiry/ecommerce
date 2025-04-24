@@ -37,8 +37,9 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="{% url 'category_summary' %}">Todos productos</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="{% url 'category' 'Cell-Phone' %}">Cell Phone</a></li>
-                        <li><a class="dropdown-item" href="{% url 'category' 'Notebooks' %}">Notebooks</a></li>
+                        {% for name in category %}
+                            <li><a class="dropdown-item" href="{% url 'category' %}">{{ name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
             </ul>
